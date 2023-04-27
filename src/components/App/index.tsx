@@ -1,15 +1,13 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
 import "./App.css";
-import Header from "components/Header";
-import Menu from "components/Menu";
-import RestaurantsList from "components/ReataurantsList";
-import Loading from "components/ReataurantsList/Loading";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import HomePage from "components/HomePage";
+import { useState, useEffect } from "react";
 import { ReataurantsType } from "components/Scripts";
+import axios from "axios";
+import RestaurantPage from "components/RestaurantPage";
 
 function App() {
   const [restaurants, setRestaurants] = useState<ReataurantsType[]>([]);
-  const [filteredRestaurants, setFilteredRestaurants] = useState(restaurants);
   const [error, setError] = useState<Error>();
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
@@ -27,26 +25,23 @@ function App() {
   }, []);
 
   return (
-    <div className="min-h-screen max-w-7xl m-auto px-5">
-      <Header
-        setFilteredRestaurants={setFilteredRestaurants}
-        filteredRestaurants={filteredRestaurants}
-      />
-      <Menu restaurants={restaurants} setFilteredRestaurants={setFilteredRestaurants} />
-      <div className="grid grid-cols-4 gap-10 pt-12 pb-20">
-        {isLoaded
-          ? filteredRestaurants.map((item) => (
-              <RestaurantsList key={item.id} item={item} error={error} />
-            ))
-          : // вот тут ошибка в консоли из-за того, что нет ключа, но если его прописать, то все работает неправильно
-            Array(10).fill(<Loading />)}
-      </div>
-      {filteredRestaurants.length === 0 && (
-        <div className="py-20 text-lg font-medium text-center w-full m-auto">
-          По Вашему запросу в выбранной категории ничего не найдено
-        </div>
-      )}
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <HomePage restaurants={restaurants} error={error} isLoaded={isLoaded} />
+          }></Route>
+        {restaurants.map((restaurant) => {
+          return (
+            <Route
+              path={restaurant.slug}
+              element={<RestaurantPage restaurant={restaurant} />}></Route>
+          );
+        })}
+        {/* <Route path="/expenses" element={}></Route> */}
+      </Routes>
+    </BrowserRouter>
   );
 }
 

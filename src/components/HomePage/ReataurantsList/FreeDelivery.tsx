@@ -11,6 +11,7 @@ const FreeDelivery = () => {
           <img src={image} alt="" className="w-8 h-8 p-1.5" />
         </div>
         <p
+          onClick={() => setIsOpen(!isOpen)}
           onMouseOut={() => setIsOpen(false)}
           onMouseOver={() => setIsOpen(true)}
           className="bg-neutral-100 rounded-2xl hover:bg-neutral-200 text-sm px-5 py-1.5 absolute left-4 top-1.5 cursor-pointer z-10">

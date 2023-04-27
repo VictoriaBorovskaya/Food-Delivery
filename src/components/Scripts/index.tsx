@@ -11,3 +11,12 @@ export type ReataurantsType = {
   description: string;
   id: number;
 };
+
+export type FoodType = {
+  id: string;
+  restaurantId: string;
+  name: string;
+  image: string;
+  description: string;
+  price: string;
+};
