@@ -14,7 +14,8 @@ const FreeDelivery = () => {
           onClick={() => setIsOpen(!isOpen)}
           onMouseOut={() => setIsOpen(false)}
           onMouseOver={() => setIsOpen(true)}
-          className="bg-neutral-100 rounded-2xl hover:bg-neutral-200 text-sm px-5 py-1.5 absolute left-4 top-1.5 cursor-pointer z-10">
+          className="bg-neutral-100 rounded-2xl hover:bg-neutral-200 text-sm px-5 py-1.5 absolute left-4 top-1.5 cursor-pointer z-10"
+        >
           Бесплатная доставка
         </p>
       </div>
@@ -23,7 +24,8 @@ const FreeDelivery = () => {
           !isOpen
             ? "hidden"
             : "flex flex-col container rounded-3xl shadow-md border border-neutral-200 text-sm px-4 py-2 mt-3 absolute z-50 bg-white w-fit"
-        }>
+        }
+      >
         <p className="font-medium">Бесплатная доставка</p>
         <p className="">действует на заказ от 600₽</p>
       </div>

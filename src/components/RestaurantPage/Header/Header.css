@@ -1,0 +1,10 @@
+@media (max-width: 500px) {
+  .header-container {
+    flex-direction: column-reverse;
+    gap: 15px;
+  }
+
+  .cart-container {
+    width: 100%;
+  }
+}

@@ -1,36 +1,25 @@
-import { ReataurantsType } from "components/Scripts";
-import FreeDelivery from "./FreeDelivery";
-import { Link } from "react-router-dom";
-import { RatingSVG } from "components/Scripts/SVG";
+import { RestaurantsType } from 'redux/slices/restaurantsSlice';
+import { Link } from 'react-router-dom';
+import { RatingSVG } from './SVG';
+import FreeDelivery from './FreeDelivery';
 
 type Props = {
-  restaurant: ReataurantsType;
-  error: Error | undefined;
+  restaurant: RestaurantsType;
 };
 
-const RestaurantsList = ({ restaurant, error }: Props) => {
-  if (error) {
-    return <div>Ошибка: {error.message}</div>;
-  }
-
+const RestaurantsList = ({ restaurant }: Props) => {
   return (
     <div className="relative">
       <div className="bg-yellow-300/70 absolute rounded-2xl top-2 left-2 z-30">
         <p className="font-medium text-lg px-5 py-1">{restaurant.cuisine}</p>
       </div>
-      <Link to={restaurant.slug}>
-        <div className="relative rounded-2xl overflow-hidden shadow cursor-pointer h-48">
-          <img
-            loading="lazy"
-            src={restaurant.image}
-            alt=""
-            decoding="async"
-            className="object-cover object-center h-full w-full"
-          />
+      <Link to={`/${restaurant.slug}`}>
+        <div className="relative rounded-2xl overflow-hidden shadow cursor-pointer sm:h-48 h-60">
+          <img loading="lazy" src={restaurant.image} alt="" className="object-cover object-center h-full w-full" />
           <div className="absolute top-0 left-0 right-0 bottom-0 bg-neutral-900/10 hover:bg-neutral-900/0"></div>
         </div>
       </Link>
-      <Link to={restaurant.slug}>
+      <Link to={`/${restaurant.slug}`}>
         <p className="font-medium text-xl pt-1 cursor-pointer">{restaurant.name}</p>
       </Link>
       <div className="flex items-center">

@@ -1,12 +1,16 @@
+import { Link } from 'react-router-dom';
+
 const Logo = () => {
-  const logo = require("./logo.png");
+  const logo = require('./logo.png');
 
   return (
-    <div className="flex text-3xl font-semibold">
-      <p>Food</p>
-      <img src={logo} alt="" className="w-9 h-9" />
-      <p>Delivery</p>
-    </div>
+    <Link to="/">
+      <div className="flex text-3xl font-semibold">
+        <p className="block sm:hidden md:block">Food</p>
+        <img src={logo} alt="" className="md:w-9 md:h-9 w-11 h-11" />
+        <p className="block sm:hidden md:block">Delivery</p>
+      </div>
+    </Link>
   );
 };
 

@@ -1,15 +1,19 @@
-import { Link } from "react-router-dom";
-import Logo from "components/HomePage/Header/logo";
-import { LocationSVG, ShoppingCartSVG } from "components/Scripts/SVG";
+import { Link } from 'react-router-dom';
+import Logo from 'components/HomePage/Header/logo';
+import { LocationSVG, ShoppingCartSVG } from './SVG';
+import { useSelector } from 'react-redux';
+import type { RootState } from 'redux/store';
+import './Header.css';
 
 const Header = () => {
+  const { cart } = useSelector((state: RootState) => state.cart);
+  const totalPrice = cart.reduce((prev, cur) => prev + parseFloat(cur.item.price) * cur.count, 0);
+
   return (
-    <div className="flex py-5 items-center justify-between border-b-2 border-b-neutral-300 max-w-7xl m-auto px-5">
+    <div className="flex py-5 items-center justify-between border-b-2 border-b-neutral-300 max-w-7xl m-auto px-5 header-container">
       <div className="flex items-center gap-5">
-        <Link to="/">
-          <Logo />
-        </Link>
-        <button className="border-2 border-neutral-300 rounded-r-2xl hover:bg-neutral-200 rounded-2xl h-11 px-5 font-medium duration-200">
+        <Logo />
+        <button className="hidden sm:block border-2 border-neutral-300 rounded-r-2xl hover:bg-neutral-200 rounded-2xl h-11 px-5 font-medium duration-200">
           <span className="flex">
             <span>
               <LocationSVG />
@@ -18,10 +22,17 @@ const Header = () => {
           </span>
         </button>
       </div>
-      <div className="flex items-center rounded-2xl bg-neutral-200/60 h-11 px-5 gap-2">
-        <p className="border-r-2 border-black pr-2 font-medium">0₽</p>
-        <ShoppingCartSVG />
-      </div>
+      <Link to="/cart" className="flex justify-end cart-container">
+        <div
+          className={
+            cart.length > 0
+              ? 'flex items-center justify-center gap-2 bg-yellow-300 h-11 sm:px-5 px-3 rounded-2xl w-fit'
+              : 'flex items-center justify-center gap-2 bg-neutral-200/60 h-11 sm:px-5 px-3 rounded-2xl w-fit'
+          }>
+          <ShoppingCartSVG />
+          <p className="font-medium">{cart.length ? Math.ceil(totalPrice) : 0}₽</p>
+        </div>
+      </Link>
     </div>
   );
 };

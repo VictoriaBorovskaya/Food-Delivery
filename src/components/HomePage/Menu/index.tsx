@@ -1,15 +1,24 @@
-import React, { useEffect, useState } from "react";
-import "./Menu.css";
-import { ReataurantsType } from "components/Scripts";
+import React, { useEffect } from 'react';
+import { RestaurantsType } from 'redux/slices/restaurantsSlice';
+import { useSelector, useDispatch } from 'react-redux';
+import { setFilter } from 'redux/slices/filterSlice';
+import type { RootState } from 'redux/store';
+import './Menu.css';
 
 type Props = {
-  restaurants: ReataurantsType[];
-  setFilteredRestaurants: (filteredRestaurants: ReataurantsType[]) => void;
+  setFilteredRestaurants: (filteredRestaurants: RestaurantsType[]) => void;
 };
 
-const Menu = React.memo(({ restaurants, setFilteredRestaurants }: Props) => {
-  const options = ["Pasta", "Burger", "Pizza", "Dessert", "Biryani", "Rice", "Butter-chicken"];
-  const [activeOption, setActiveOption] = useState<number | null>(null);
+const options = ['Pasta', 'Burger', 'Pizza', 'Dessert', 'Biryani', 'Rice', 'Butter-chicken'];
+
+const Menu = React.memo(({ setFilteredRestaurants }: Props) => {
+  const dispatch = useDispatch();
+  const activeOption = useSelector((state: RootState) => state.filter.option);
+  const restaurants = useSelector((state: RootState) => state.restaurants.restaurants);
+
+  const setActiveOption = (index: number | null) => {
+    dispatch(setFilter(index));
+  };
 
   useEffect(() => {
     setFilteredRestaurants(restaurants);
@@ -36,13 +45,13 @@ const Menu = React.memo(({ restaurants, setFilteredRestaurants }: Props) => {
 
   return (
     <div className="bg-neutral-200/60 p-2 rounded-2xl mt-12 shadow-sm">
-      <ul className="flex gap-2 items-center">
+      <ul className="flex items-center flex-wrap lg:justify-start justify-center leading-none sm:text-base text-sm ">
         <li
           onClick={() => allRestaurant()}
           className={
             activeOption === null
-              ? "rounded-xl px-5 py-2 text-lg bg-white"
-              : "hover:bg-white rounded-xl px-5 py-2 text-lg"
+              ? 'rounded-xl px-5 py-2 text-lg bg-white mx-2'
+              : 'hover:bg-white rounded-xl px-5 py-2 text-lg mx-2'
           }>
           Все
         </li>
@@ -53,8 +62,8 @@ const Menu = React.memo(({ restaurants, setFilteredRestaurants }: Props) => {
               key={`${index}_${option}`}
               className={
                 activeOption === index
-                  ? "rounded-xl px-5 py-2 text-lg bg-white"
-                  : "hover:bg-white rounded-xl px-5 py-2 text-lg"
+                  ? 'rounded-xl px-5 py-2 text-lg bg-white mx-2'
+                  : 'hover:bg-white rounded-xl px-5 py-2 text-lg mx-2'
               }>
               {option}
             </li>

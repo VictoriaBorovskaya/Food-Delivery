@@ -1,0 +1,14 @@
+@media (max-width: 500px) {
+  .info-modal {
+    left: 20px;
+    top: -135px;
+    scale: 0.9;
+  }
+}
+
+@media (max-width: 375px) {
+  .info-modal {
+    left: 0px;
+    width: 100%;
+  }
+}
