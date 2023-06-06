@@ -5,12 +5,12 @@ import { useAppDispatch } from 'redux/store';
 import HomePage from 'components/HomePage';
 import RestaurantPage from 'components/RestaurantPage';
 import CartPage from 'components/CartPage';
+import ErrorPage from 'components/ErrorPage';
 import './App.css';
-import Footer from 'components/Footer';
-import NotFoungPage from 'components/NotFoundPage';
 
 function App() {
   const dispatch = useAppDispatch();
+
   useEffect(() => {
     dispatch(fetchRestaurants());
   }, [dispatch]);
@@ -21,9 +21,8 @@ function App() {
         <Route path="/" element={<HomePage />}></Route>
         <Route path="/:slug" element={<RestaurantPage />}></Route>
         <Route path="/cart" element={<CartPage />}></Route>
-        <Route path="*" element={<NotFoungPage />}></Route>
+        <Route path="*" element={<ErrorPage />}></Route>
       </Routes>
-      <Footer />
     </div>
   );
 }

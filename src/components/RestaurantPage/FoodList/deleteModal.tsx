@@ -20,8 +20,7 @@ const DeleteModal = ({ isDelete, setIsDelete, restaurant, cart, getNewCart }: Pr
       <div className="bg-white p-7 rounded-2xl w-96">
         <p className="text-xl font-bold">Оформить заказ из ресторана {restaurant.name}?</p>
         <p className="leading-tight pt-2">
-          Все ранее добавленные блюда из ресторана {cart.length > 0 ? cart[0].name : ''} будут
-          удалены из корзины
+          Все ранее добавленные блюда из ресторана {cart.length > 0 ? cart[0].name : ''} будут удалены из корзины
         </p>
         <div className="flex gap-5 justify-between pt-5">
           <button

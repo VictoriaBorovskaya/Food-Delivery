@@ -1,6 +1,7 @@
 import { RestaurantsType } from 'redux/slices/restaurantsSlice';
 import { getHours, getMinutes } from 'date-fns';
-import { PhoneSVG, EmailSVG } from './SVG';
+import { PhoneSVG, EmailSVG, CloseSVG } from './SVG';
+import cn from 'classnames';
 import './InfoModal.css';
 
 type Props = {
@@ -30,25 +31,16 @@ const InfoModal = ({ isOpenInfoModal, restaurant, setIsOpenInfoModal }: Props) =
     <div
       id="info-modal"
       onClick={(event) => event.target === document.getElementById('info-modal') && setIsOpenInfoModal(false)}
-      className={
-        isOpenInfoModal
-          ? 'fixed top-0 right-0 left-0 bottom-0 bg-neutral-700/50 z-50 flex items-center justify-center'
-          : 'hidden'
-      }>
+      className={cn('', {
+        'fixed top-0 right-0 left-0 bottom-0 bg-neutral-700/50 z-50 flex items-center justify-center': isOpenInfoModal,
+        hidden: !isOpenInfoModal,
+      })}>
       <div className="flex items-center justify-center">
         <div className="flex-col bg-white shadow-md rounded-2xl z-50 w-4/5 sm:w-3/5 lg:w-2/5 p-5 overflow-x-auto">
           <div className=" flex flex-col-reverse sm:flex-row items-end md:items-center justify-between">
             <p className="text-xl font-medium pb-2 w-full text-start">{restaurant.name}</p>
             <button onClick={() => setIsOpenInfoModal(false)}>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="w-6 h-6 text-neutral-400">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-              </svg>
+              <CloseSVG />
             </button>
           </div>
           <p>{restaurant.address}</p>

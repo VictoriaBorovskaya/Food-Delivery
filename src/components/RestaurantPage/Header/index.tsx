@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom';
-import Logo from 'components/HomePage/Header/logo';
-import { LocationSVG, ShoppingCartSVG } from './SVG';
 import { useSelector } from 'react-redux';
 import type { RootState } from 'redux/store';
+import Logo from 'components/HomePage/Header/logo';
+import { LocationSVG, ShoppingCartSVG } from './SVG';
+import cn from 'classnames';
 import './Header.css';
 
 const Header = () => {
@@ -24,11 +25,10 @@ const Header = () => {
       </div>
       <Link to="/cart" className="flex justify-end cart-container">
         <div
-          className={
-            cart.length > 0
-              ? 'flex items-center justify-center gap-2 bg-yellow-300 h-11 sm:px-5 px-3 rounded-2xl w-fit'
-              : 'flex items-center justify-center gap-2 bg-neutral-200/60 h-11 sm:px-5 px-3 rounded-2xl w-fit'
-          }>
+          className={cn('flex items-center justify-center gap-2 h-11 sm:px-5 px-3 rounded-2xl w-fit', {
+            'bg-yellow-300 hover:bg-yellow-400': cart.length > 0,
+            'bg-neutral-200/60': cart.length === 0,
+          })}>
           <ShoppingCartSVG />
           <p className="font-medium">{cart.length ? Math.ceil(totalPrice) : 0}₽</p>
         </div>

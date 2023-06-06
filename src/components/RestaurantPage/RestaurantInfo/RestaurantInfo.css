@@ -1,0 +1,3 @@
+.restaurantInfo-button {
+  @apply bg-neutral-100/80 rounded-xl h-16 hover:bg-neutral-100;
+}

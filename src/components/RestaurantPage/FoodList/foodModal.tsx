@@ -1,63 +1,29 @@
+import { useState } from 'react';
 import { CartType } from 'redux/slices/cartSlice';
 import { FoodType } from 'redux/slices/foodSlice';
-import { DeleteSVG, AddSVG } from './SVG';
-import { useDispatch } from 'react-redux';
-import { setCart } from 'redux/slices/cartSlice';
-import { RestaurantsType } from 'redux/slices/restaurantsSlice';
-import { useState } from 'react';
+import { DeleteSVG, AddSVG, CloseSVG } from './SVG';
 
 type Props = {
   item: FoodType;
   cart: CartType[];
-  restaurant: RestaurantsType;
   setIsOpen: (isOpen: boolean) => void;
-  setIsDelete: (isDelete: boolean) => void;
+  addToCart: (count?: number) => void;
 };
 
-const FoodModal = ({ item, cart, restaurant, setIsOpen, setIsDelete }: Props) => {
+const FoodModal = ({ item, cart, setIsOpen, addToCart }: Props) => {
   let index = cart.findIndex((elem) => elem.item.id === item.id);
 
   const [foodCount, setFoodCount] = useState<number>(
     !cart.map((el) => el.item.id).includes(item.id) ? 1 : cart[index].count,
   );
 
-  const dispatch = useDispatch();
-
   const addCount = () => {
     setFoodCount(foodCount + 1);
   };
 
   const deleteCount = () => {
-    setFoodCount(foodCount - 1);
-  };
-
-  const addToCart = () => {
-    if (cart.length === 0) {
-      setIsOpen(false);
-      return dispatch(setCart([...cart, { item, name: restaurant.name, count: foodCount }]));
-    } else if (cart.length > 0) {
-      const cartItemIds = cart.map((el) => el.item.id);
-      if (!cartItemIds.includes(item.id)) {
-        if (cart[0].item.restaurantId !== item.restaurantId) {
-          setIsDelete(true);
-          setIsOpen(false);
-        } else {
-          setIsOpen(false);
-          return dispatch(setCart([...cart, { item, name: restaurant.name, count: foodCount }]));
-        }
-      } else {
-        const elem = cart.find((c) => c.item.id === item.id)!;
-        setIsOpen(false);
-        return dispatch(
-          setCart([
-            ...cart.filter((elem) => elem.item.id !== item.id),
-            {
-              ...elem,
-              count: foodCount,
-            },
-          ]),
-        );
-      }
+    if (foodCount > 1) {
+      setFoodCount(foodCount - 1);
     }
   };
 
@@ -70,22 +36,14 @@ const FoodModal = ({ item, cart, restaurant, setIsOpen, setIsDelete }: Props) =>
         <div className="flex flex-col-reverse sm:flex-row items-end md:items-center justify-between">
           <p className="text-lg md:text-xl font-medium w-full text-start">{item.name}</p>
           <button onClick={() => setIsOpen(false)}>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="w-6 h-6 text-neutral-400">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-            </svg>
+            <CloseSVG />
           </button>
         </div>
         <p className="text-base pb-4">{item.description}</p>
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-5">
           <div className="flex sm:flex-row flex-col-reverse gap-5">
             <button
-              onClick={() => addToCart()}
+              onClick={() => addToCart(foodCount)}
               className="border-2 border-yellow-300 bg-yellow-300 rounded-r-2xl hover:bg-yellow-400 hover:border-yellow-400 rounded-xl h-9 md:h-11 px-5 font-medium md:text-lg">
               Добавить
             </button>

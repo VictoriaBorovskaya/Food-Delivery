@@ -1,0 +1,7 @@
+.footer-text {
+  @apply text-sm text-neutral-500 cursor-pointer hover:text-neutral-600;
+}
+
+.footer-title {
+  @apply font-bold text-lg text-neutral-600 pb-5;
+}

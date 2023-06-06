@@ -1,8 +1,8 @@
-import { CartType } from 'redux/slices/cartSlice';
-import { DeleteSVG, AddSVG } from './SVG';
 import { useSelector, useDispatch } from 'react-redux';
 import type { RootState } from 'redux/store';
+import { CartType } from 'redux/slices/cartSlice';
 import { setCart } from 'redux/slices/cartSlice';
+import { DeleteSVG, AddSVG } from './SVG';
 
 type Props = {
   item: CartType;

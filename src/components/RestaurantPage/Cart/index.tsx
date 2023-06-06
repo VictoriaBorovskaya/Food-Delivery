@@ -1,17 +1,18 @@
 import { useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import { useSelector, useDispatch } from 'react-redux';
 import type { RootState } from 'redux/store';
 import { setCart } from 'redux/slices/cartSlice';
+import { RestaurantsType } from 'redux/slices/restaurantsSlice';
+import { Link } from 'react-router-dom';
 import ClearCartModal from './ClearCartModal';
 import CartItem from './CartItem';
-import { v4 as uuidv4 } from 'uuid';
-import { RestaurantsType } from 'redux/slices/restaurantsSlice';
 
 type Props = {
-  restaurant: RestaurantsType;
+  freeDeliveryItem: () => boolean | undefined;
 };
 
-const Basket = ({ restaurant }: Props) => {
+const Basket = ({ freeDeliveryItem }: Props) => {
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
   const dispatch = useDispatch();
   const { cart } = useSelector((state: RootState) => state.cart);
@@ -47,7 +48,7 @@ const Basket = ({ restaurant }: Props) => {
         )}
         {cart.length > 0 && (
           <div className="h-full pb-5">
-            <div className={'overflow-y-auto h-4/5'}>
+            <div className="overflow-y-auto h-4/5">
               {[...cart]
                 .sort((a, b) => +a.item.id - +b.item.id)
                 .map((item) => (
@@ -68,24 +69,12 @@ const Basket = ({ restaurant }: Props) => {
                     className="w-8 h-8"
                   />
                 </div>
-                {(+restaurant.id === 1 ||
-                  +restaurant.id === 3 ||
-                  +restaurant.id === 4 ||
-                  +restaurant.id === 6 ||
-                  +restaurant.id === 8 ||
-                  +restaurant.id === 9) &&
-                totalPrice < 600 ? (
+                {freeDeliveryItem() && totalPrice < 600 ? (
                   <div>
                     <p>Доставка 99₽</p>
                     <p className="text-xs text-neutral-500">До бесплатной доставки {Math.ceil(600 - totalPrice)}₽</p>
                   </div>
-                ) : (+restaurant.id === 1 ||
-                    +restaurant.id === 3 ||
-                    +restaurant.id === 4 ||
-                    +restaurant.id === 6 ||
-                    +restaurant.id === 8 ||
-                    +restaurant.id === 9) &&
-                  totalPrice > 600 ? (
+                ) : freeDeliveryItem() && totalPrice > 600 ? (
                   <div>
                     <p className="text-lime-500 font-medium">
                       Доставка 0₽ <span className="line-through text-xs text-neutral-500">99₽</span>
@@ -97,27 +86,17 @@ const Basket = ({ restaurant }: Props) => {
                   </div>
                 )}
               </div>
-              <button className="border-2 border-yellow-300 bg-yellow-300 rounded-r-2xl hover:bg-yellow-400 hover:border-yellow-400 rounded-2xl h-11 font-medium w-full lg:text-lg">
-                Верно, к оплате{' '}
-                {(+restaurant.id === 1 ||
-                  +restaurant.id === 3 ||
-                  +restaurant.id === 4 ||
-                  +restaurant.id === 6 ||
-                  +restaurant.id === 8 ||
-                  +restaurant.id === 9) &&
-                totalPrice > 600
-                  ? Math.ceil(totalPrice + serviceCharge)
-                  : (+restaurant.id === 1 ||
-                      +restaurant.id === 3 ||
-                      +restaurant.id === 4 ||
-                      +restaurant.id === 6 ||
-                      +restaurant.id === 8 ||
-                      +restaurant.id === 9) &&
-                    totalPrice < 600
-                  ? Math.ceil(totalPrice + serviceCharge + 99)
-                  : Math.ceil(totalPrice + serviceCharge + 99)}
-                ₽
-              </button>
+              <Link to="/cart">
+                <button className="border-2 border-yellow-300 bg-yellow-300 rounded-r-2xl hover:bg-yellow-400 hover:border-yellow-400 rounded-2xl h-11 font-medium w-full lg:text-lg">
+                  Верно, к оплате{' '}
+                  {freeDeliveryItem() && totalPrice > 600
+                    ? Math.ceil(totalPrice + serviceCharge)
+                    : freeDeliveryItem() && totalPrice < 600
+                    ? Math.ceil(totalPrice + serviceCharge + 99)
+                    : Math.ceil(totalPrice + serviceCharge + 99)}
+                  ₽
+                </button>
+              </Link>
             </div>
           </div>
         )}

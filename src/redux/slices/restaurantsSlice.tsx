@@ -2,9 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 export const fetchRestaurants = createAsyncThunk('restaurants/fetchRestaurants', async () => {
-  const { data } = await axios.get<RestaurantsType[]>(
-    'https://www.bit-by-bit.ru/api/student-projects/restaurants',
-  );
+  const { data } = await axios.get<RestaurantsType[]>('https://www.bit-by-bit.ru/api/student-projects/restaurants');
   return data;
 });
 

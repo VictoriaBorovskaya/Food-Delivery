@@ -22,9 +22,6 @@ export const CartSlice = createSlice({
     setCart: (state, action) => {
       state.cart = action.payload;
     },
-    // replaceCartItem: (state, action) => {
-    //   state.cart = state.cart.filter((item) => item.item !== action.payload);
-    // },
   },
 });
 

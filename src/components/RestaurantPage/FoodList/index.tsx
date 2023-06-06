@@ -7,6 +7,7 @@ import { setCart } from 'redux/slices/cartSlice';
 import DeleteModal from './deleteModal';
 import { InfoSVG, DeleteSVG, AddSVG } from './SVG';
 import FoodModal from './foodModal';
+import './FoodList.css';
 
 type Props = {
   item: FoodType;
@@ -19,28 +20,46 @@ const FoodList = ({ item, restaurant }: Props) => {
   const dispatch = useDispatch();
   const { cart } = useSelector((state: RootState) => state.cart);
 
-  const addToCart = () => {
+  const addToCart = (count?: number) => {
     if (cart.length === 0) {
-      dispatch(setCart([...cart, { item, name: restaurant.name, count: 1 }]));
+      setIsOpen(false);
+      return count
+        ? dispatch(setCart([...cart, { item, name: restaurant.name, count: count }]))
+        : dispatch(setCart([...cart, { item, name: restaurant.name, count: 1 }]));
     } else if (cart.length > 0) {
       const cartItemIds = cart.map((el) => el.item.id);
       if (!cartItemIds.includes(item.id)) {
         if (cart[0].item.restaurantId !== item.restaurantId) {
           setIsDelete(true);
+          setIsOpen(false);
         } else {
-          return dispatch(setCart([...cart, { item, name: restaurant.name, count: 1 }]));
+          setIsOpen(false);
+          return count
+            ? dispatch(setCart([...cart, { item, name: restaurant.name, count: count }]))
+            : dispatch(setCart([...cart, { item, name: restaurant.name, count: 1 }]));
         }
       } else {
         const elem = cart.find((c) => c.item.id === item.id)!;
-        return dispatch(
-          setCart([
-            ...cart.filter((elem) => elem.item.id !== item.id),
-            {
-              ...elem,
-              count: elem.count + 1,
-            },
-          ]),
-        );
+        setIsOpen(false);
+        return count
+          ? dispatch(
+              setCart([
+                ...cart.filter((elem) => elem.item.id !== item.id),
+                {
+                  ...elem,
+                  count: count,
+                },
+              ]),
+            )
+          : dispatch(
+              setCart([
+                ...cart.filter((elem) => elem.item.id !== item.id),
+                {
+                  ...elem,
+                  count: elem.count + 1,
+                },
+              ]),
+            );
       }
     }
   };
@@ -80,23 +99,17 @@ const FoodList = ({ item, restaurant }: Props) => {
       <img loading="lazy" src={item.image} alt="" className="rounded-3xl h-60 md:h-48 w-full object-cover" />
       <p className="font-medium text-xl pt-2 pb-0.5">{Math.ceil(+item.price)}₽</p>
       <p className="pb-4 grow">{item.name}</p>
-      {isOpen === true && (
-        <FoodModal item={item} cart={cart} setIsOpen={setIsOpen} setIsDelete={setIsDelete} restaurant={restaurant} />
-      )}
+      {isOpen === true && <FoodModal item={item} cart={cart} setIsOpen={setIsOpen} addToCart={addToCart} />}
       <div className="flex items-center justify-between gap-3">
-        <button
-          className="bg-neutral-200/60 rounded-xl p-2 shadow-sm active:bg-neutral-200"
-          onClick={() => setIsOpen(!isOpen)}>
+        <button className="p-2 active:bg-neutral-200 foodList-button" onClick={() => setIsOpen(!isOpen)}>
           <InfoSVG />
         </button>
         {cart.filter((elem) => elem.item.id === item.id).length === 0 ? (
-          <button
-            className="bg-neutral-200/60 rounded-xl py-2 shadow-sm text-lg grow active:bg-neutral-200"
-            onClick={() => addToCart()}>
+          <button className="py-2 grow active:bg-neutral-200 foodList-button" onClick={() => addToCart()}>
             <span className="font-semibold text-2xl">+</span> Добавить
           </button>
         ) : (
-          <div className="bg-neutral-200/60 rounded-xl p-2 shadow-sm text-lg grow text-center flex items-center justify-between">
+          <div className="p-2 grow text-center flex items-center justify-between foodList-button">
             <button className="text-2xl " onClick={() => deleteFood()}>
               <DeleteSVG />
             </button>

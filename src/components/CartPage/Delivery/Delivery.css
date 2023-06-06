@@ -1,0 +1,3 @@
+.delivery-input {
+  @apply outline-none border border-neutral-400 rounded-2xl px-5 py-2 hover:border-neutral-600 focus:border-neutral-600;
+}

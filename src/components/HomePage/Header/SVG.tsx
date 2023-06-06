@@ -38,8 +38,8 @@ export const ShoppingCartSVG = () => {
       xmlns="http://www.w3.org/2000/svg"
       className="w-6 h-6">
       <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        fillRule="evenodd"
+        clipRule="evenodd"
         d="m11 7.5 5.207-5.207A1 1 0 0 1 16.914 2H18.5l-4.125 5.5H23.5l-.288 1.295a1.22 1.22 0 0 1-1.19.955.488.488 0 0 0-.478.389l-1.713 8.267A2 2 0 0 1 17.872 20H6.128a2 2 0 0 1-1.958-1.594l-1.714-8.267a.488.488 0 0 0-.478-.389 1.22 1.22 0 0 1-1.19-.955L.5 7.5H11Zm-5.5 3h2.708l.542 7H7.012a.5.5 0 0 1-.494-.424L5.5 10.5Zm5.146 0h2.708l-.27 7h-2.167l-.271-7Zm7.854 0h-2.708l-.542 7h1.738a.5.5 0 0 0 .494-.424L18.5 10.5Z"
         fill="currentColor"></path>
     </svg>

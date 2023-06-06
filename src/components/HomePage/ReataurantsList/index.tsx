@@ -8,6 +8,14 @@ type Props = {
 };
 
 const RestaurantsList = ({ restaurant }: Props) => {
+  const freeDeliveryItem =
+    +restaurant.id === 1 ||
+    +restaurant.id === 3 ||
+    +restaurant.id === 4 ||
+    +restaurant.id === 6 ||
+    +restaurant.id === 8 ||
+    +restaurant.id === 9;
+
   return (
     <div className="relative">
       <div className="bg-yellow-300/70 absolute rounded-2xl top-2 left-2 z-30">
@@ -26,12 +34,7 @@ const RestaurantsList = ({ restaurant }: Props) => {
         <RatingSVG />
         <p className="text-sm">4.8 Хорошо (200+)</p>
       </div>
-      {+restaurant.id === 1 && <FreeDelivery key={restaurant.id} />}
-      {+restaurant.id === 3 && <FreeDelivery key={restaurant.id} />}
-      {+restaurant.id === 4 && <FreeDelivery key={restaurant.id} />}
-      {+restaurant.id === 6 && <FreeDelivery key={restaurant.id} />}
-      {+restaurant.id === 8 && <FreeDelivery key={restaurant.id} />}
-      {+restaurant.id === 9 && <FreeDelivery key={restaurant.id} />}
+      {freeDeliveryItem && <FreeDelivery key={restaurant.id} />}
     </div>
   );
 };
